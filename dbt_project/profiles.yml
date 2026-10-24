@@ -1,0 +1,9 @@
+e_commerce_analytics:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: ../warehouse/orders.duckdb
+      schema: analytics
+      threads: 1
+

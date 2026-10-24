@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: "Lapisan staging dengan nama kolom dan tipe data yang konsisten."
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_id
+        data_tests:
+          - not_null
+
+  - name: dim_customer
+    description: "Dimensi customer, satu baris per customer_id."
+    columns:
+      - name: customer_id
+        data_tests:
+          - not_null
+          - unique
+
+  - name: dim_product_category
+    description: "Dimensi kategori produk."
+    columns:
+      - name: product_category
+        data_tests:
+          - not_null
+          - unique
+
+  - name: fct_orders
+    description: "Fact transaksi, satu baris per order_id."
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - unique
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_id
+      - name: product_category
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_product_category')
+                field: product_category
+
+  - name: mart_daily_sales
+    description: "Agregat order dan penjualan yang diakui per tanggal, kategori, pembayaran."
+    columns:
+      - name: order_date
+        data_tests:
+          - not_null
+

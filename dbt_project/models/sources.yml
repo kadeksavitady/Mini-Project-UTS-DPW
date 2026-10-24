@@ -1,0 +1,9 @@
+version: 2
+
+sources:
+  - name: warehouse
+    schema: main
+    tables:
+      - name: raw_orders
+        description: "Order valid hasil kontrak data dari batch dan streaming."
+
